@@ -60,7 +60,7 @@ public class PaymentController {
                                             .setQuantity(1L)
                                             .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
                                                             .setCurrency("pen")
-                                                            .setUnitAmount((long) (order.getTotalDiscountedPrice() * 100)) // amount in cents
+                                                            .setUnitAmount((long) (order.getTotalPrice() * 100)) // amount in cents
                                                             .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                                             .setName("Order #" + orderId)
                                                                             .build())
@@ -94,7 +94,7 @@ public class PaymentController {
                 order.getPaymetDetails().setPaymentStatus("COMPLETED");
                 order.setOrderStatus("PLACED");
                 orderRepository.save(order);
-                orderService.updateProductInventory(orderId);
+
                 ApiResponse res = new ApiResponse();
                 res.setMessage("Your order has been placed");
                 res.setStatus(true);

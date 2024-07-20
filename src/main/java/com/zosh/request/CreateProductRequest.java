@@ -1,5 +1,12 @@
 package com.zosh.request;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.zosh.model.Size;
+
+import jakarta.persistence.Column;
+
 public class CreateProductRequest {
 	
 	private String title;
@@ -16,12 +23,15 @@ public class CreateProductRequest {
 	
 	private String brand;
 	
+	private String color;
+	
+	private Set<Size> size = new HashSet<>();
+	
 	private String imageUrl;
 	
 	private String topLavelCategory;
 	private String secondLavelCategory;
 	private String thirdLavelCategory;
-	
 	public String getTitle() {
 		return title;
 	}
@@ -64,6 +74,18 @@ public class CreateProductRequest {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	public Set<Size> getSize() {
+		return size;
+	}
+	public void setSize(Set<Size> size) {
+		this.size = size;
+	}
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -90,5 +112,4 @@ public class CreateProductRequest {
 	}
 	
 	
-
 }

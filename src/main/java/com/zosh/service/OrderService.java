@@ -28,6 +28,4 @@ public interface OrderService {
 	public List<Order>getAllOrders();
 
 	public void deleteOrder(Long orderId) throws OrderException;
-	
-	public void updateProductInventory(Long orderId) throws OrderException;
 }

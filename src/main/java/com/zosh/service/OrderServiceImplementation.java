@@ -13,13 +13,11 @@ import com.zosh.model.Cart;
 import com.zosh.model.CartItem;
 import com.zosh.model.Order;
 import com.zosh.model.OrderItem;
-import com.zosh.model.Product;
 import com.zosh.model.User;
 import com.zosh.repository.AddressRepository;
 import com.zosh.repository.CartRepository;
 import com.zosh.repository.OrderItemRepository;
 import com.zosh.repository.OrderRepository;
-import com.zosh.repository.ProductRepository;
 import com.zosh.repository.UserRepository;
 
 @Service
@@ -31,18 +29,16 @@ public class OrderServiceImplementation implements OrderService{
 	private UserRepository userRepository;
 	private OrderItemService orderItemService;
 	private OrderItemRepository orderItemRepository;
-	private ProductRepository productRepository;
 	
 	private ProductService productService;
 	
-	public OrderServiceImplementation(OrderRepository orderRepository, CartService cartService, AddressRepository addressRepository, UserRepository userRepository, OrderItemService orderItemService, OrderItemRepository orderItemRepository, ProductRepository productRepository) {
+	public OrderServiceImplementation(OrderRepository orderRepository, CartService cartService, AddressRepository addressRepository, UserRepository userRepository, OrderItemService orderItemService, OrderItemRepository orderItemRepository) {
 		this.orderRepository = orderRepository;
 		this.cartService = cartService;
 		this.addressRepository = addressRepository;
 		this.userRepository = userRepository;
 		this.orderItemService = orderItemService;
 		this.orderItemRepository = orderItemRepository;
-		this.productRepository = productRepository;
 	}
 	
 	@Override
@@ -62,6 +58,7 @@ public class OrderServiceImplementation implements OrderService{
 			orderItem.setPrice(item.getPrice());
 			orderItem.setProduct(item.getProduct());
 			orderItem.setQuantity(item.getQuantity());
+			orderItem.setSize(item.getSize());
 			orderItem.setUserId(item.getUserId());
 			orderItem.setDiscountedPrice(item.getDiscountedPrice());
 			
@@ -162,23 +159,5 @@ public class OrderServiceImplementation implements OrderService{
 		
 		orderRepository.deleteById(orderId);
 	}
-	
-	@Override
-    public void updateProductInventory(Long orderId) throws OrderException {
-		Order order = findOrderById(orderId);
-		System.out.println("actualizacion id"+order+" - orderesese "+order.getOrderItems());
-        for (OrderItem item : order.getOrderItems()) {
-            Product product = item.getProduct();
-            System.out.println("producto name"+ product);
-            int newQuantity = product.getQuantity() - item.getQuantity();
-            System.out.println("producto name"+ product.getTitle());
-            System.out.println("producto cantidad"+ newQuantity);
-            if (newQuantity < 0) {
-                throw new OrderException("Not enough stock for product: " + product.getTitle());
-            }
-            product.setQuantity(newQuantity);
-            productRepository.save(product);
-        }
-    }
 
 }

@@ -1,7 +1,9 @@
 package com.zosh.request;
 
 public class AddItemRequest {
+
 	private Long productId;
+	private String size;
 	private int quantity;
 	private Integer price;
 	
@@ -15,6 +17,14 @@ public class AddItemRequest {
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 
 	public int getQuantity() {
@@ -32,6 +42,7 @@ public class AddItemRequest {
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
+	
 	
 	
 }

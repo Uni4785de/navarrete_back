@@ -2,10 +2,14 @@ package com.zosh.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +42,14 @@ public class Product {
 	@Column(name="brand")
 	private String brand;
 	
+	@Column(name="color")
+	private String color;
+	
+	@Embedded
+	@ElementCollection
+	@Column(name = "sizes")
+	private Set<Size> sizes = new HashSet<>();
+	
 	@Column(name = "image_url")
 	private String imageUrl;
 	
@@ -61,8 +73,8 @@ public class Product {
 	}
 
 	public Product(Long id, String title, String description, int price, int discountedPrice, int discountPersent,
-			int quantity, String brand, String imageUrl, List<Rating> ratings, List<Review> reviews, int numRatings,
-			Category category, LocalDateTime createdAt) {
+			int quantity, String brand, String color, Set<Size> sizes, String imageUrl, List<Rating> ratings,
+			List<Review> reviews, int numRatings, Category category, LocalDateTime createdAt) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -72,6 +84,8 @@ public class Product {
 		this.discountPersent = discountPersent;
 		this.quantity = quantity;
 		this.brand = brand;
+		this.color = color;
+		this.sizes = sizes;
 		this.imageUrl = imageUrl;
 		this.ratings = ratings;
 		this.reviews = reviews;
@@ -142,6 +156,22 @@ public class Product {
 
 	public void setBrand(String brand) {
 		this.brand = brand;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public Set<Size> getSizes() {
+		return sizes;
+	}
+
+	public void setSizes(Set<Size> sizes) {
+		this.sizes = sizes;
 	}
 
 	public String getImageUrl() {

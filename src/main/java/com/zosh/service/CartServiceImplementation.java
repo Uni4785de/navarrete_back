@@ -3,7 +3,6 @@ package com.zosh.service;
 import org.springframework.stereotype.Service;
 
 import com.zosh.exception.ProductException;
-import com.zosh.exception.UserException;
 import com.zosh.model.Cart;
 import com.zosh.model.CartItem;
 import com.zosh.model.Product;
@@ -39,7 +38,7 @@ public class CartServiceImplementation implements CartService{
 		Cart cart = cartRepository.findByUserId(userId);
 		Product product = productService.findProductById(req.getProductId());
 		
-		CartItem isPresent = cartItemService.isCartItemExist(cart, product, userId);
+		CartItem isPresent = cartItemService.isCartItemExist(cart, product, req.getSize(), userId);
 		
 		if(isPresent == null) {
 			CartItem cartItem = new CartItem();
@@ -50,6 +49,7 @@ public class CartServiceImplementation implements CartService{
 			
 			int price = req.getQuantity()*product.getDiscountedPrice();
 			cartItem.setPrice(price);
+			cartItem.setSize(req.getSize());
 			
 			CartItem createdCartItem = cartItemService.createCartItem(cartItem);
 			cart.getCartItems().add(createdCartItem);
@@ -81,14 +81,5 @@ public class CartServiceImplementation implements CartService{
 		
 		return cartRepository.save(cart);
 	}
-	
-	@Override
-	public void clearCart(Long userId) throws UserException {
-        Cart cart = cartRepository.findByUserId(userId);
-        if (cart == null) {
-            throw new UserException("User cart not found");
-        }
-        cart.getCartItems().clear();
-        cartRepository.save(cart);
-    }
+
 }

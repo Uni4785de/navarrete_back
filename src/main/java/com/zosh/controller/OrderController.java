@@ -49,7 +49,7 @@ public class OrderController {
 		User user = userService.findUserProfileByJwt(jwt);
 		List<Order> orders = orderService.usersOrderHistory(user.getId());
 		
-		return new ResponseEntity<>(orders, HttpStatus.CREATED);
+		return new ResponseEntity<>(orders, HttpStatus.OK);
 		
 	}
 	

@@ -56,14 +56,4 @@ public class CartController {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
-	@PutMapping("/clear")
-    public ResponseEntity<ApiResponse> clearCart(@RequestHeader("Authorization") String jwt) throws UserException {
-        User user = userService.findUserProfileByJwt(jwt);
-        cartService.clearCart(user.getId());
-
-        ApiResponse res = new ApiResponse();
-        res.setMessage("Cart cleared successfully");
-        res.setStatus(true);
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
 }

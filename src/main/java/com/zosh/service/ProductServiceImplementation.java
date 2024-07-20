@@ -65,12 +65,14 @@ public class ProductServiceImplementation implements ProductService{
 		
 		Product product = new Product();
 		product.setTitle(req.getTitle());
+		product.setColor(req.getColor());
 		product.setDescription(req.getDescription());
 		product.setDiscountedPrice(req.getDiscountedPrice());
 		product.setDiscountPersent(req.getDiscountPersent());
 		product.setImageUrl(req.getImageUrl());
 		product.setBrand(req.getBrand());
 		product.setPrice(req.getPrice());
+		product.setSizes(req.getSize());
 		product.setQuantity(req.getQuantity());
 		product.setCategory(thirdLevel);
 		product.setCreatedAt(LocalDateTime.now());
@@ -83,6 +85,7 @@ public class ProductServiceImplementation implements ProductService{
 	@Override
 	public String deleteProduct(Long productId) throws ProductException {
 		Product product = findProductById(productId);
+		product.getSizes().clear();
 		productRepository.delete(product);
 		return "Product deleted Successfully";
 	}
@@ -115,12 +118,16 @@ public class ProductServiceImplementation implements ProductService{
 	}
 
 	@Override
-	public Page<Product> getAllProduct(String category, Integer minPrice,
+	public Page<Product> getAllProduct(String category, List<String> colors, List<String> sizes, Integer minPrice,
 			Integer maxPrice, Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize) {
 		
 		Pageable pageble = PageRequest.of(pageNumber, pageSize);
 		
 		List<Product> products = productRepository.filterProducts(category, minPrice, maxPrice, minDiscount, sort);
+		
+		if(!colors.isEmpty()) {
+			products = products.stream().filter(p-> colors.stream().anyMatch(c -> c.equalsIgnoreCase(p.getColor()))).collect(Collectors.toList());
+		}
 		
 		if(stock!=null) {
 			if(stock.equals("in_stock")){

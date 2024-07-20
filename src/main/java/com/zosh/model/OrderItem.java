@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class OrderItem {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -22,6 +24,8 @@ public class OrderItem {
 	
 	@ManyToOne
 	private Product product;
+	
+	private String size;
 	
 	private int quantity;
 	
@@ -36,13 +40,14 @@ public class OrderItem {
 	public OrderItem() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public OrderItem(Long id, Order order, Product product, int quantity, Integer price, Integer discountedPrice,
-			Long userId, LocalDateTime deliveryDate) {
+	
+	public OrderItem(Long id, Order order, Product product, String size, int quantity, Integer price,
+			Integer discountedPrice, Long userId, LocalDateTime deliveryDate) {
 		super();
 		this.id = id;
 		this.order = order;
 		this.product = product;
+		this.size = size;
 		this.quantity = quantity;
 		this.price = price;
 		this.discountedPrice = discountedPrice;
@@ -72,6 +77,14 @@ public class OrderItem {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 
 	public int getQuantity() {
@@ -113,6 +126,7 @@ public class OrderItem {
 	public void setDeliveryDate(LocalDateTime deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
+	
 	
 	
 }

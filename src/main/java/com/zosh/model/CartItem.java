@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class CartItem {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -20,6 +21,8 @@ public class CartItem {
 	
 	@ManyToOne
 	private Product product;
+	
+	private String size;
 	
 	private int quantity;
 	
@@ -57,6 +60,14 @@ public class CartItem {
 		this.product = product;
 	}
 
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}
@@ -88,6 +99,7 @@ public class CartItem {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+	
 	
 	
 }
